@@ -1,5 +1,5 @@
-Benchmark repository for Non-negative Least Square
-==================================================
+Benchmark repository for Ridge Regrssion with positivity constraints
+====================================================================
 
 |Build Status| |Python 3.6+|
 
@@ -9,7 +9,7 @@ The Non-Negative Least Square consists in solving the following program:
 
 .. math::
 
-    \min_{w \geq 0} \frac{1}{2} \|y - Xw\|^2_2
+    \min_{w \geq 0} \frac{1}{2} \|y - Xw\|^2_2  + \frac{\lambda}{2} \|w\|_2^2
 
 where n (or n_samples) stands for the number of samples, p (or n_features) stands for the number of features and
 
@@ -25,18 +25,17 @@ This benchmark can be run using the following commands:
 .. code-block::
 
    $ pip install -U benchopt
-   $ git clone https://github.com/benchopt/benchmark_nnls
-   $ benchopt run benchmark_nnls
+   $ git clone https://github.com/agramfort/benchmark_ridge_positive
+   $ benchopt run benchmark_ridge_positive
 
 Apart from the problem, options can be passed to `benchopt run`, to restrict the benchmarks to some solvers or datasets, e.g.:
 
 .. code-block::
 
-	$ benchopt run benchmark_nnls -s sklearn -d boston --max-runs 10 --n-repetitions 10
+	$ benchopt run benchmark_ridge_positive -d simulated --n-repetitions 1
 
 
 Use `benchopt run -h` for more details about these options, or visit https://benchopt.github.io/api.html.
-
 
 
 .. |Build Status| image:: https://github.com/benchopt/benchmark_nnls/workflows/build/badge.svg
