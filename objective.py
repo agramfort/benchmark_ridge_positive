@@ -1,22 +1,24 @@
 from benchopt import BaseObjective
+import numpy as np
 
 
 class Objective(BaseObjective):
-    name = "Ordinary Least Squares"
+    name = "Ridge regression with postivity constraints"
 
-    parameters = {
-        'fit_intercept': [False],
-    }
+    parameters = {"reg": [1]}
 
-    def __init__(self, fit_intercept=False):
-        self.fit_intercept = fit_intercept
+    def __init__(self, reg=1):
+        self.reg = reg
 
     def set_data(self, X, y):
         self.X, self.y = X, y
 
     def compute(self, beta):
-        diff = self.y - self.X.dot(beta)
-        return .5 * diff.dot(diff)
+        if (beta >= 0).all():
+            diff = self.y - self.X.dot(beta)
+            return 0.5 * diff.dot(diff) + 0.5 * self.reg * beta.dot(beta)
+        else:
+            return np.inf
 
     def to_dict(self):
-        return dict(X=self.X, y=self.y, fit_intercept=self.fit_intercept)
+        return dict(X=self.X, y=self.y, reg=self.reg)
